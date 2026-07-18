@@ -55,8 +55,9 @@ test("keeps every primary navigation item available on mobile", () => {
   assert.match(styles, /overflow-x: auto/);
 });
 
-test("labels editorial project visuals honestly", () => {
-  assert.match(page, /功能结构示意（非产品截图）/);
+test("uses honest visuals for every project", () => {
+  assert.doesNotMatch(page, /功能结构示意（非产品截图）/);
+  assert.match(page, /财务 AI 小助理 · 实际界面/);
   assert.match(page, /\/media\/stand-up-reminder\.ico/);
   assert.match(page, /项目视觉标识/);
 });
@@ -84,4 +85,19 @@ test("uses the approved clean hero copy", () => {
   assert.doesNotMatch(page, /Thinking First\. AI Second\./);
   assert.match(page, /className="hero-name"/);
   assert.match(page, /className="about-summary"/);
+});
+
+test("uses real imagery and the approved lightweight work layout", async () => {
+  assert.match(page, /\/media\/finance-ai-assistant\.png/);
+  assert.match(page, /className="featured-project"/);
+  assert.match(page, /className="project-pair"/);
+  assert.match(page, /className="content-project"/);
+  assert.doesNotMatch(page, /finance-preview/);
+  assert.doesNotMatch(page, /issue-label/);
+
+  const png = await readFile(
+    new URL("../public/media/finance-ai-assistant.png", import.meta.url),
+  );
+  assert.equal(png.readUInt32BE(16), 1920);
+  assert.equal(png.readUInt32BE(20), 879);
 });

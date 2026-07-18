@@ -261,215 +261,116 @@ nav a:hover::after {
 }
 
 .work {
-  border-bottom: 1px solid rgba(30, 29, 26, 0.25);
+  padding-top: clamp(90px, 11vw, 150px);
+  padding-bottom: clamp(90px, 11vw, 150px);
+  border-bottom: 1px solid var(--line);
 }
 
-.work-grid {
+.section-intro {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(260px, 0.75fr) minmax(260px, 0.75fr);
-  gap: 26px;
-  align-items: stretch;
+  grid-template-columns: minmax(120px, 0.35fr) minmax(0, 1.4fr);
+  gap: clamp(40px, 7vw, 110px);
+  align-items: end;
+  margin-bottom: 70px;
 }
 
-.project-card,
-.workflow-card {
-  position: relative;
-  border: 1px solid var(--line);
-  background: rgba(248, 245, 238, 0.94);
-  box-shadow: 7px 7px 0 rgba(30, 29, 26, 0.07);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+.section-intro h2 {
+  margin: 0;
+  font-size: clamp(54px, 7vw, 102px);
+  font-weight: 760;
+  letter-spacing: -0.06em;
+  line-height: 0.98;
 }
 
-.project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 10px 12px 0 rgba(30, 29, 26, 0.09);
+.featured-project {
+  padding-block: clamp(42px, 6vw, 82px);
+  border-top: 1px solid var(--line);
 }
 
-.project-card h3 {
-  margin: 18px 0 18px;
-  font-family: var(--serif);
-  font-size: clamp(32px, 3vw, 48px);
-  font-weight: 500;
-  line-height: 1.08;
+.project-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(340px, 0.65fr);
+  gap: clamp(50px, 9vw, 150px);
+  margin-bottom: 54px;
 }
 
-.project-card p:not(.project-type) {
+.project-heading h3,
+.simple-project h3,
+.content-project h3 {
+  margin: 18px 0 0;
+  font-size: clamp(40px, 5.6vw, 76px);
+  font-weight: 740;
+  letter-spacing: -0.055em;
+  line-height: 1.03;
+}
+
+.project-description,
+.simple-project > p:not(.project-kicker),
+.content-copy > p:not(.project-kicker) {
   color: var(--muted);
-  font-size: 15px;
-  line-height: 1.8;
-}
-
-.finance-card {
-  grid-column: 1 / -1;
-  min-height: 520px;
-  display: grid;
-  grid-template-columns: minmax(300px, 1.05fr) minmax(420px, 0.95fr);
-  gap: 48px;
-  padding: clamp(30px, 4vw, 58px);
-}
-
-.project-copy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  font-size: 17px;
+  line-height: 1.85;
 }
 
 .tag-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: auto 0 0;
-  padding: 30px 0 0;
+  margin: 24px 0 0;
+  padding: 0;
   list-style: none;
 }
 
 .tag-list li {
   padding: 7px 11px;
-  border: 1px solid rgba(30, 29, 26, 0.18);
+  border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--muted);
   font-size: 12px;
 }
 
-.finance-preview {
+.finance-screenshot {
   position: relative;
-  min-height: 390px;
-  display: flex;
-  flex-direction: column;
-  padding: 26px;
-  background: var(--panel);
-  color: #f8f5ee;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #f1f3f5;
 }
 
-.visual-caption {
-  align-self: flex-end;
-  margin-bottom: 18px;
-  padding: 6px 9px;
-  border: 1px solid rgba(248, 245, 238, 0.32);
-  color: rgba(248, 245, 238, 0.72);
-  font-size: 11px;
-  letter-spacing: 0.04em;
+.finance-screenshot img,
+.content-project img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-.preview-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font: 12px/1.2 Georgia, serif;
-  letter-spacing: 0.05em;
-}
-
-.preview-bar span {
-  margin-right: auto;
-}
-
-.preview-bar i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--terracotta);
-}
-
-.preview-bar i:last-child {
-  background: var(--sun);
-}
-
-.finance-metrics {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 32px;
-}
-
-.finance-metrics div {
-  min-height: 92px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 16px;
-  border: 1px solid rgba(248, 245, 238, 0.15);
-}
-
-.finance-metrics small {
-  color: rgba(248, 245, 238, 0.58);
-}
-
-.finance-metrics strong {
-  font-family: var(--serif);
-  font-size: 23px;
-  font-weight: 500;
-}
-
-.accent-text {
-  color: var(--terracotta);
-}
-
-.finance-chart {
-  display: grid;
-  gap: 12px;
-  margin-top: 28px;
-  padding: 24px;
-  border: 1px solid rgba(248, 245, 238, 0.12);
-}
-
-.finance-chart span {
-  height: 8px;
-  background: var(--terracotta);
-}
-
-.finance-chart span:nth-child(2) {
-  background: var(--sun);
-}
-
-.finance-chart span:nth-child(3) {
-  background: #aab69f;
-}
-
-.finance-chart span:nth-child(4) {
-  background: rgba(248, 245, 238, 0.38);
-}
-
-.finance-query {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: auto;
-  padding-top: 22px;
-  color: rgba(248, 245, 238, 0.72);
-  font-size: 13px;
-}
-
-.finance-query b {
-  color: var(--sun);
-}
-
-.issue-label {
+.finance-screenshot figcaption {
   position: absolute;
-  top: -17px;
-  right: 28px;
-  padding: 10px 16px;
-  background: var(--terracotta);
-  color: var(--paper);
-  font: 700 12px/1 Georgia, serif;
-  letter-spacing: 0.12em;
-  transform: rotate(1.5deg);
+  left: 18px;
+  bottom: 18px;
+  padding: 7px 11px;
+  background: rgba(20, 32, 43, 0.88);
+  color: #fff;
+  font-size: 11px;
 }
 
-.reminder-card,
-.dice-card {
-  min-height: 440px;
+.project-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.simple-project {
+  min-height: 520px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 32px;
+  padding: clamp(38px, 5vw, 68px);
 }
 
-.reminder-card {
-  grid-column: 1 / 2;
-}
-
-.dice-card {
-  grid-column: 2 / -1;
+.simple-project + .simple-project {
+  border-left: 1px solid var(--line);
 }
 
 .reminder-visual {
@@ -480,8 +381,7 @@ nav a:hover::after {
   margin: auto 0 28px;
   padding: 20px;
   border: 1px solid var(--line);
-  background: #a9b39e;
-  box-shadow: -5px 5px 0 var(--sun);
+  background: #e6e8df;
 }
 
 .reminder-icon {
@@ -562,18 +462,13 @@ nav a:hover::after {
   gap: 22px;
 }
 
-.xhs-card {
-  grid-column: 1 / -1;
+.content-project {
   display: grid;
-  grid-template-columns: 0.75fr 1.25fr;
-  gap: 44px;
-  padding: clamp(30px, 4vw, 54px);
-}
-
-.xhs-copy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  grid-template-columns: minmax(300px, 0.7fr) minmax(0, 1fr);
+  gap: clamp(48px, 8vw, 120px);
+  align-items: center;
+  padding-block: clamp(72px, 9vw, 120px);
+  border-bottom: 1px solid var(--line);
 }
 
 .post-list {
@@ -587,25 +482,7 @@ nav a:hover::after {
 .post-list li::before {
   content: "—";
   margin-right: 10px;
-  color: var(--terracotta);
-}
-
-.xhs-copy .text-link {
-  margin-top: auto;
-}
-
-.xhs-visual {
-  overflow: hidden;
-  border: 1px solid rgba(30, 29, 26, 0.16);
-  border-radius: 4px;
-  background: white;
-  box-shadow: 0 22px 55px rgba(54, 45, 34, 0.1);
-}
-
-.xhs-visual img {
-  display: block;
-  width: 100%;
-  height: auto;
+  color: var(--accent);
 }
 
 .workflow-card {
