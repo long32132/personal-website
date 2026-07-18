@@ -1,16 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f4f0e8;
-  --card: #f8f5ee;
-  --ink: #1e1d1a;
-  --muted: #67635c;
-  --terracotta: #d8613c;
-  --sun: #e9c95b;
-  --line: #a7a096;
-  --panel: #24241f;
-  --serif: STSong, "Songti SC", "Noto Serif SC", Georgia, serif;
-  --sans: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --paper: #f7f5f0;
+  --card: #fbfaf7;
+  --ink: #14202b;
+  --muted: #697078;
+  --accent: #d8613c;
+  --terracotta: var(--accent);
+  --line: rgba(20, 32, 43, 0.16);
+  --sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", Arial, sans-serif;
 }
 
 * {
@@ -25,11 +23,7 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
-  background:
-    linear-gradient(rgba(30, 29, 26, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(30, 29, 26, 0.035) 1px, transparent 1px),
-    var(--paper);
-  background-size: 36px 36px;
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
 }
@@ -41,25 +35,24 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid var(--terracotta);
+  outline: 3px solid var(--accent);
   outline-offset: 4px;
 }
 
 .site-header,
 .page-section {
-  width: min(100%, 1480px);
+  width: min(100%, 1440px);
   margin: 0 auto;
-  padding-left: clamp(24px, 4vw, 72px);
-  padding-right: clamp(24px, 4vw, 72px);
+  padding-inline: clamp(22px, 5vw, 76px);
 }
 
 .site-header {
-  min-height: 82px;
+  min-height: 84px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 32px;
-  border-bottom: 1px solid rgba(30, 29, 26, 0.32);
+  border-bottom: 1px solid var(--line);
 }
 
 .brand {
@@ -77,12 +70,10 @@ button:focus-visible {
   border-radius: 50%;
   background: var(--ink);
   color: var(--paper);
-  font-family: var(--serif);
 }
 
 .brand em {
   color: var(--muted);
-  font-family: Georgia, serif;
   font-size: 13px;
   font-weight: 400;
   letter-spacing: 0.06em;
@@ -107,7 +98,7 @@ nav a::after {
   right: 100%;
   bottom: 18px;
   height: 3px;
-  background: var(--terracotta);
+  background: var(--accent);
   transition: right 180ms ease;
 }
 
@@ -116,109 +107,75 @@ nav a:hover::after {
 }
 
 .hero {
-  min-height: 620px;
+  min-height: min(780px, calc(100vh - 84px));
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(280px, 0.9fr);
-  gap: 72px;
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.65fr);
+  gap: clamp(48px, 8vw, 128px);
   align-items: end;
-  padding-top: 72px;
-  padding-bottom: 62px;
-  border-bottom: 1px solid rgba(30, 29, 26, 0.25);
+  padding-top: clamp(90px, 13vh, 150px);
+  padding-bottom: clamp(64px, 10vh, 110px);
+  border-bottom: 1px solid var(--line);
 }
 
+.hero-index,
+.section-label,
+.project-kicker,
 .eyebrow,
 .project-type {
   margin: 0;
-  color: var(--terracotta);
-  font-family: Georgia, serif;
-  font-size: 13px;
+  color: var(--accent);
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.hero-kicker {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.hero-kicker::before {
-  content: "";
-  width: 34px;
-  height: 2px;
-  background: currentColor;
-}
-
-.hero h1 {
-  max-width: 1020px;
+.hero-name {
   margin: 24px 0 0;
-  font-family: var(--serif);
-  font-size: clamp(58px, 6.6vw, 108px);
-  font-weight: 500;
-  letter-spacing: -0.055em;
-  line-height: 1.02;
+  font-size: clamp(82px, 12vw, 176px);
+  font-weight: 800;
+  letter-spacing: -0.075em;
+  line-height: 0.86;
 }
 
-.hero h1 span {
-  position: relative;
-  display: inline-block;
-  margin-left: 0.1em;
-  color: var(--terracotta);
-  white-space: nowrap;
+.hero-name span {
+  display: block;
+  margin-top: 28px;
+  font-size: clamp(18px, 2.2vw, 30px);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1;
 }
 
-.hero h1 span::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: -3%;
-  right: -3%;
-  bottom: 4%;
-  height: 13%;
-  background: var(--sun);
-  transform: rotate(-1.4deg);
+.hero-message {
+  padding-bottom: 10px;
 }
 
-.hero-note {
-  margin-bottom: 20px;
-  padding: 28px 0 8px 34px;
-  border-left: 1px solid var(--line);
-}
-
-.hero-note p {
+.hero-statement {
   margin: 0;
+  font-size: clamp(30px, 3.6vw, 54px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.28;
+}
+
+.hero-focus {
+  margin: 28px 0 0;
   color: var(--muted);
-  font-size: 17px;
-  line-height: 1.9;
+  font-size: 15px;
+  line-height: 1.8;
 }
 
-.hero-actions {
-  margin-top: 26px;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.primary-button {
+.hero-link {
   display: inline-flex;
-  align-items: center;
   gap: 16px;
-  border-radius: 999px;
-  background: var(--ink);
-  color: var(--paper);
-  padding: 14px 22px;
+  margin-top: 42px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid currentColor;
   font-size: 14px;
   font-weight: 700;
-  transition: transform 180ms ease, background 180ms ease;
 }
 
-.primary-button:hover {
-  background: var(--terracotta);
-  transform: translateY(-2px);
-}
-
-.quiet-link,
 .text-link {
   font-size: 14px;
   font-weight: 700;
@@ -249,7 +206,7 @@ nav a:hover::after {
 .about,
 .workflow,
 .contact {
-  border-bottom: 1px solid rgba(30, 29, 26, 0.25);
+  border-bottom: 1px solid var(--line);
 }
 
 .section-heading {
@@ -263,9 +220,8 @@ nav a:hover::after {
 .section-heading h2,
 .contact h2 {
   margin: 0;
-  font-family: var(--serif);
   font-size: clamp(42px, 5vw, 72px);
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: -0.045em;
   line-height: 1.08;
 }
@@ -276,28 +232,32 @@ nav a:hover::after {
   color: var(--muted);
 }
 
-.about-grid {
+.about {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.75fr);
-  gap: clamp(56px, 8vw, 140px);
-  padding-left: 208px;
+  grid-template-columns: minmax(120px, 0.35fr) minmax(0, 1.4fr);
+  gap: clamp(40px, 7vw, 110px);
+  padding-top: clamp(90px, 11vw, 150px);
+  padding-bottom: clamp(90px, 11vw, 150px);
 }
 
-.about-lead {
+.about-summary {
+  max-width: 980px;
+}
+
+.about-summary h2 {
   margin: 0;
-  font-family: var(--serif);
-  font-size: clamp(32px, 3.5vw, 54px);
-  line-height: 1.35;
+  font-size: clamp(46px, 6.2vw, 88px);
+  font-weight: 750;
+  letter-spacing: -0.055em;
+  line-height: 1.05;
 }
 
-.about-body {
+.about-summary p {
+  max-width: 760px;
+  margin: 38px 0 0 auto;
   color: var(--muted);
-  font-size: 17px;
-  line-height: 1.9;
-}
-
-.about-body p:first-child {
-  margin-top: 0;
+  font-size: 18px;
+  line-height: 1.95;
 }
 
 .work {

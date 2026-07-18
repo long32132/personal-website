@@ -65,49 +65,32 @@ export default function Home() {
       </header>
 
       <section className="hero page-section" id="top">
-        <div className="hero-copy">
-          <p className="eyebrow hero-kicker">Thinking First. AI Second.</p>
-          <h1>
-            你好，我是张景隆。
-            <br />
-            我用 AI 做一些
-            <span>有用、也有趣</span>
-            <br />
-            的东西。
+        <div className="hero-name-block">
+          <p className="hero-index">PERSONAL WORKS / 2026</p>
+          <h1 className="hero-name">
+            张景隆
+            <span>ZHANG JINGLONG</span>
           </h1>
         </div>
-        <div className="hero-note">
-          <p>
-            我关注 AI 应用、工作流与 Vibe Coding。
-            <br />
-            这里记录我做过的工具、游戏和内容。
+        <div className="hero-message">
+          <p className="hero-statement">我用 AI，把想法做成可以使用的东西。</p>
+          <p className="hero-focus">
+            AI 应用 · 自动化工作流 · Vibe Coding · 内容创作
           </p>
-          <div className="hero-actions">
-            <a className="primary-button" href="#work">
-              看看我做了什么 <span aria-hidden="true">↓</span>
-            </a>
-            <a className="quiet-link" href="#contact">
-              联系我
-            </a>
-          </div>
+          <a className="hero-link" href="#work">
+            查看作品 <span aria-hidden="true">↓</span>
+          </a>
         </div>
       </section>
 
       <section className="about page-section" id="about">
-        <SectionHeading eyebrow="01 / About" title="先理解问题，再考虑 AI。" />
-        <div className="about-grid">
-          <p className="about-lead">
-            我做的东西不一定很宏大，但都会从一个具体的问题或念头开始。
+        <p className="section-label">01 / ABOUT</p>
+        <div className="about-summary">
+          <h2>从一个具体的问题开始。</h2>
+          <p>
+            我关注 AI 应用、自动化工作流和 Vibe Coding，也会记录 AI
+            岗位与实际应用中的观察。我喜欢把模糊的想法拆开，再一步步做成可以使用的助手、工具、游戏和内容。
           </p>
-          <div className="about-body">
-            <p>
-              有的是一个让财务数据更容易看懂的助手，有的是提醒人别一直坐着的小工具，也有一个可以直接在浏览器里玩的骰子游戏。
-            </p>
-            <p>
-              它们被我一步步做成了可以使用的东西。我也会持续研究 AI
-              应用、模型评测、自动化工作流和 Vibe Coding，并把其中有意思的发现分享出来。
-            </p>
-          </div>
         </div>
       </section>
 

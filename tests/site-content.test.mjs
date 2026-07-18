@@ -69,3 +69,19 @@ test("uses the verified 1200 by 630 sharing image", async () => {
   assert.equal(png.readUInt32BE(16), 1200);
   assert.equal(png.readUInt32BE(20), 630);
 });
+
+test("uses the approved clean hero copy", () => {
+  for (const phrase of [
+    "张景隆",
+    "ZHANG JINGLONG",
+    "我用 AI，把想法做成可以使用的东西。",
+    "AI 应用 · 自动化工作流 · Vibe Coding · 内容创作",
+  ]) {
+    assert.match(page, new RegExp(phrase));
+  }
+
+  assert.doesNotMatch(page, /你好，我是张景隆/);
+  assert.doesNotMatch(page, /Thinking First\. AI Second\./);
+  assert.match(page, /className="hero-name"/);
+  assert.match(page, /className="about-summary"/);
+});
