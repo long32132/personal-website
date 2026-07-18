@@ -53,6 +53,36 @@ test("does not contain rejected resume-style claims", () => {
 test("keeps every primary navigation item available on mobile", () => {
   assert.doesNotMatch(styles, /nav a:not\(:last-child\)/);
   assert.match(styles, /overflow-x: auto/);
+  for (const href of ["#about", "#work", "#workflow", "#contact"]) {
+    assert.match(page, new RegExp(`<a href="${href}">`));
+  }
+  assert.equal(
+    (page.match(/<a href="#(?:about|work|workflow|contact)">/g) ?? []).length,
+    4,
+  );
+});
+
+test("uses an accessible dark terracotta for small labels", () => {
+  assert.match(styles, /--accent-text: #9b3d24/);
+  assert.match(
+    styles,
+    /\.hero-index,[\s\S]*?\.project-type\s*\{[^}]*color: var\(--accent-text\)/,
+  );
+  assert.match(
+    styles,
+    /\.workflow-item span\s*\{[^}]*color: var\(--accent-text\)/,
+  );
+});
+
+test("places the finance screenshot caption below the image", () => {
+  assert.match(
+    styles,
+    /\.finance-screenshot figcaption\s*\{[^}]*position: static/,
+  );
+  assert.doesNotMatch(
+    styles,
+    /\.finance-screenshot figcaption\s*\{[^}]*position: absolute/,
+  );
 });
 
 test("uses honest visuals for every project", () => {

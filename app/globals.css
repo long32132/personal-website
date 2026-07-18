@@ -6,6 +6,7 @@
   --ink: #14202b;
   --muted: #697078;
   --accent: #d8613c;
+  --accent-text: #9b3d24;
   --terracotta: var(--accent);
   --line: rgba(20, 32, 43, 0.16);
   --sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", Arial, sans-serif;
@@ -123,7 +124,7 @@ nav a:hover::after {
 .eyebrow,
 .project-type {
   margin: 0;
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -328,11 +329,10 @@ nav a:hover::after {
 }
 
 .finance-screenshot figcaption {
-  position: absolute;
-  left: 18px;
-  bottom: 18px;
-  padding: 7px 11px;
-  background: rgba(20, 32, 43, 0.88);
+  position: static;
+  display: block;
+  padding: 9px 12px;
+  background: var(--ink);
   color: #fff;
   font-size: 11px;
 }
@@ -494,7 +494,7 @@ nav a:hover::after {
 }
 
 .workflow-item span {
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 12px;
 }
 
@@ -693,12 +693,6 @@ footer {
 
   .workflow-note ul {
     justify-content: flex-start;
-  }
-
-  .finance-screenshot figcaption {
-    position: static;
-    display: block;
-    background: var(--ink);
   }
 
   .contact-statement {
