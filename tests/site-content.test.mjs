@@ -101,3 +101,11 @@ test("uses real imagery and the approved lightweight work layout", async () => {
   assert.equal(png.readUInt32BE(16), 1920);
   assert.equal(png.readUInt32BE(20), 879);
 });
+
+test("uses the lightweight workflow and contact close", () => {
+  assert.match(page, /className="workflow-line"/);
+  assert.match(page, /有想法，欢迎和我聊聊。/);
+  assert.match(styles, /@media \(max-width: 760px\)/);
+  assert.match(styles, /\.project-pair[\s\S]*grid-template-columns: 1fr/);
+  assert.doesNotMatch(page, /workflow-card/);
+});

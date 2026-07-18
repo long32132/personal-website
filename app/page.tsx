@@ -27,24 +27,6 @@ function ExternalLink({
   );
 }
 
-function SectionHeading({
-  eyebrow,
-  title,
-  description,
-}: {
-  eyebrow: string;
-  title: string;
-  description?: string;
-}) {
-  return (
-    <div className="section-heading">
-      <p className="eyebrow">{eyebrow}</p>
-      <h2>{title}</h2>
-      {description ? <p className="section-description">{description}</p> : null}
-    </div>
-  );
-}
-
 export default function Home() {
   return (
     <main>
@@ -208,58 +190,47 @@ export default function Home() {
       </section>
 
       <section className="workflow page-section" id="workflow">
-        <SectionHeading
-          eyebrow="03 / Dify Workflow"
-          title="模型回答事实核验工作流"
-          description="批量验证模型生成内容的真实性，同时保留可复查的判断依据。"
-        />
-        <div className="workflow-card">
-          <div className="workflow-steps">
-            {workflowSteps.map(([number, title, description], index) => (
-              <div
-                className={`workflow-step ${index === 2 ? "is-active" : ""}`}
-                key={number}
-              >
-                <span>{number}</span>
-                <strong>{title}</strong>
-                <small>{description}</small>
-              </div>
-            ))}
-          </div>
-          <div className="workflow-summary">
-            <p>
-              工作流分别调用博查、百度和微软搜索获取外部证据，通过多来源结果交叉核验，最终批量输出结构化结果。
-            </p>
-            <ul>
-              <li>真实性结论</li>
-              <li>判断理由</li>
-              <li>证据来源</li>
-              <li>置信度</li>
-            </ul>
-          </div>
+        <div className="section-intro">
+          <p className="section-label">03 / WORKFLOW</p>
+          <h2>让判断有据可查。</h2>
+        </div>
+        <div className="workflow-line">
+          {workflowSteps.map(([number, title, description]) => (
+            <div className="workflow-item" key={number}>
+              <span>{number}</span>
+              <strong>{title}</strong>
+              <small>{description}</small>
+            </div>
+          ))}
+        </div>
+        <div className="workflow-note">
+          <p>
+            工作流调用博查、百度和微软搜索获取外部证据，通过多来源结果交叉核验，批量输出可复查的结构化结果。
+          </p>
+          <ul>
+            <li>真实性结论</li>
+            <li>判断理由</li>
+            <li>证据来源</li>
+            <li>置信度</li>
+          </ul>
         </div>
       </section>
 
       <section className="contact page-section" id="contact">
-        <p className="eyebrow">04 / Contact</p>
-        <div className="contact-grid">
-          <div>
-            <h2>保持联系</h2>
-            <p>如果你也在研究 AI 应用、工作流或者 Vibe Coding，欢迎和我交流。</p>
-          </div>
-          <div className="contact-links">
-            <a href="mailto:956348436@qq.com">Email ↗</a>
-            <ExternalLink href="https://github.com/long2132" className="contact-link">
-              GitHub
-            </ExternalLink>
-            <ExternalLink href={XHS_URL} className="contact-link">
-              小红书
-            </ExternalLink>
-            <span>13059532132</span>
-          </div>
+        <p className="section-label">04 / CONTACT</p>
+        <h2 className="contact-statement">有想法，欢迎和我聊聊。</h2>
+        <div className="contact-links">
+          <a href="mailto:956348436@qq.com">Email ↗</a>
+          <ExternalLink href="https://github.com/long2132" className="contact-link">
+            GitHub
+          </ExternalLink>
+          <ExternalLink href={XHS_URL} className="contact-link">
+            小红书
+          </ExternalLink>
+          <span>13059532132</span>
         </div>
         <footer>
-          <span>张景隆 · Personal Edition</span>
+          <span>张景隆 · 2026</span>
           <span>Ideas into usable things.</span>
         </footer>
       </section>
