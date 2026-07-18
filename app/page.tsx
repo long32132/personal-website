@@ -138,6 +138,7 @@ export default function Home() {
               </ul>
             </div>
             <div className="finance-preview" aria-label="财务助手界面示意">
+              <span className="visual-caption">功能结构示意（非产品截图）</span>
               <div className="preview-bar">
                 <span>FINANCE OVERVIEW</span>
                 <i />
@@ -178,7 +179,13 @@ export default function Home() {
               一个常驻系统托盘的久坐提醒工具。支持自定义间隔、延后提醒、工作时间、定时暂停、开机自启和每日统计。
             </p>
             <div className="reminder-visual" aria-hidden="true">
-              <span>☕</span>
+              <Image
+                className="reminder-icon"
+                src="/media/stand-up-reminder.ico"
+                alt=""
+                width={48}
+                height={48}
+              />
               <div>
                 <strong>该起来活动啦</strong>
                 <small>休息 5 分钟，眼睛也松一口气。</small>
@@ -200,6 +207,7 @@ export default function Home() {
               <span className="die die-five">
                 <i /><i /><i /><i /><i />
               </span>
+              <small>项目视觉标识</small>
             </div>
             <div className="project-links">
               <ExternalLink href="https://long32132.github.io/-2333/">

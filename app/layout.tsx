@@ -11,9 +11,9 @@ export const metadata: Metadata = {
     locale: "zh_CN",
     images: [
       {
-        url: "/og-portfolio.png",
-        width: 1731,
-        height: 909,
+        url: "/og-portfolio-v2.png",
+        width: 1200,
+        height: 630,
         alt: "张景隆个人网站的暖色编辑风分享封面",
       },
     ],
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "张景隆｜把想法做成可以使用的东西",
     description: "AI 应用、工作流、Vibe Coding 作品与内容。",
-    images: ["/og-portfolio.png"],
+    images: ["/og-portfolio-v2.png"],
   },
 };
 

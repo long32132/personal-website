@@ -6,6 +6,14 @@ const page = await readFile(
   new URL("../app/page.tsx", import.meta.url),
   "utf8",
 );
+const styles = await readFile(
+  new URL("../app/globals.css", import.meta.url),
+  "utf8",
+);
+const layout = await readFile(
+  new URL("../app/layout.tsx", import.meta.url),
+  "utf8",
+);
 
 test("uses the correct name and required sections", () => {
   assert.match(page, /张景隆/);
@@ -40,4 +48,24 @@ test("does not contain rejected resume-style claims", () => {
   ]) {
     assert.doesNotMatch(page, new RegExp(phrase));
   }
+});
+
+test("keeps every primary navigation item available on mobile", () => {
+  assert.doesNotMatch(styles, /nav a:not\(:last-child\)/);
+  assert.match(styles, /overflow-x: auto/);
+});
+
+test("labels editorial project visuals honestly", () => {
+  assert.match(page, /功能结构示意（非产品截图）/);
+  assert.match(page, /\/media\/stand-up-reminder\.ico/);
+  assert.match(page, /项目视觉标识/);
+});
+
+test("uses the verified 1200 by 630 sharing image", async () => {
+  assert.match(layout, /og-portfolio-v2\.png/);
+  const png = await readFile(
+    new URL("../public/og-portfolio-v2.png", import.meta.url),
+  );
+  assert.equal(png.readUInt32BE(16), 1200);
+  assert.equal(png.readUInt32BE(20), 630);
 });

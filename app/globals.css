@@ -47,7 +47,7 @@ button:focus-visible {
 
 .site-header,
 .page-section {
-  width: min(100%, 1600px);
+  width: min(100%, 1480px);
   margin: 0 auto;
   padding-left: clamp(24px, 4vw, 72px);
   padding-right: clamp(24px, 4vw, 72px);
@@ -372,12 +372,23 @@ nav a:hover::after {
 }
 
 .finance-preview {
+  position: relative;
   min-height: 390px;
   display: flex;
   flex-direction: column;
   padding: 26px;
   background: var(--panel);
   color: #f8f5ee;
+}
+
+.visual-caption {
+  align-self: flex-end;
+  margin-bottom: 18px;
+  padding: 6px 9px;
+  border: 1px solid rgba(248, 245, 238, 0.32);
+  color: rgba(248, 245, 238, 0.72);
+  font-size: 11px;
+  letter-spacing: 0.04em;
 }
 
 .preview-bar {
@@ -513,8 +524,10 @@ nav a:hover::after {
   box-shadow: -5px 5px 0 var(--sun);
 }
 
-.reminder-visual > span {
-  font-size: 30px;
+.reminder-icon {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
 }
 
 .reminder-visual div {
@@ -527,6 +540,7 @@ nav a:hover::after {
 }
 
 .dice-visual {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -536,6 +550,15 @@ nav a:hover::after {
   margin: auto 0 20px;
   border-top: 1px solid rgba(30, 29, 26, 0.18);
   border-bottom: 1px solid rgba(30, 29, 26, 0.18);
+}
+
+.dice-visual > small {
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  color: rgba(30, 29, 26, 0.48);
+  font-size: 10px;
+  letter-spacing: 0.08em;
 }
 
 .die {
@@ -825,17 +848,22 @@ footer {
     min-height: 68px;
   }
 
-  .brand em,
-  nav a:not(:last-child) {
+  .brand em {
     display: none;
   }
 
   nav {
-    gap: 0;
+    flex: 1;
+    justify-content: flex-end;
+    gap: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
 
   nav a {
     padding: 22px 0;
+    font-size: 12px;
+    white-space: nowrap;
   }
 
   .hero {
