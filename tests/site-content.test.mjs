@@ -109,3 +109,26 @@ test("uses the lightweight workflow and contact close", () => {
   assert.match(styles, /\.project-pair[\s\S]*grid-template-columns: 1fr/);
   assert.doesNotMatch(page, /workflow-card/);
 });
+
+test("serves portfolio images without the incompatible image optimizer", () => {
+  const imageTags = page.match(/<Image[\s\S]*?\/>/g) ?? [];
+  assert.equal(imageTags.length, 3, "expected all three portfolio images");
+
+  for (const tag of imageTags) {
+    assert.match(tag, /\bunoptimized\b/);
+  }
+});
+
+test("keeps secondary project titles balanced inside the two-column layout", () => {
+  assert.match(
+    styles,
+    /\.simple-project h3\s*\{[\s\S]*?font-size: clamp\(40px, 4vw, 64px\)/,
+  );
+});
+
+test("balances large section headings on narrow screens", () => {
+  assert.match(
+    styles,
+    /\.section-intro h2\s*\{[^}]*text-wrap: balance/,
+  );
+});

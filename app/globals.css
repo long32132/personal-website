@@ -257,6 +257,7 @@ nav a:hover::after {
   font-weight: 760;
   letter-spacing: -0.06em;
   line-height: 0.98;
+  text-wrap: balance;
 }
 
 .featured-project {
@@ -279,6 +280,11 @@ nav a:hover::after {
   font-weight: 740;
   letter-spacing: -0.055em;
   line-height: 1.03;
+}
+
+.simple-project h3 {
+  font-size: clamp(40px, 4vw, 64px);
+  text-wrap: balance;
 }
 
 .project-description,

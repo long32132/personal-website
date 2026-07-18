@@ -111,6 +111,7 @@ export default function Home() {
               height={879}
               sizes="(max-width: 760px) calc(100vw - 44px), 1288px"
               priority
+              unoptimized
             />
             <figcaption>财务 AI 小助理 · 实际界面</figcaption>
           </figure>
@@ -130,6 +131,7 @@ export default function Home() {
                 alt=""
                 width={48}
                 height={48}
+                unoptimized
               />
               <div>
                 <strong>该起来活动啦</strong>
@@ -185,6 +187,7 @@ export default function Home() {
             width={675}
             height={514}
             sizes="(max-width: 760px) calc(100vw - 44px), 620px"
+            unoptimized
           />
         </article>
       </section>
