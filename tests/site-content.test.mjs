@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const page = await readFile(
@@ -14,6 +14,18 @@ const layout = await readFile(
   new URL("../app/layout.tsx", import.meta.url),
   "utf8",
 );
+const packageJson = JSON.parse(
+  await readFile(new URL("../package.json", import.meta.url), "utf8"),
+);
+
+async function projectPathExists(relativePath) {
+  try {
+    await access(new URL(`../${relativePath}`, import.meta.url));
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 test("uses the correct name and required sections", () => {
   assert.match(page, /张景隆/);
@@ -161,4 +173,52 @@ test("balances large section headings on narrow screens", () => {
     styles,
     /\.section-intro h2\s*\{[^}]*text-wrap: balance/,
   );
+});
+
+test("uses native Next.js commands for Vercel", () => {
+  assert.equal(packageJson.scripts.dev, "next dev");
+  assert.equal(packageJson.scripts.build, "next build");
+  assert.equal(packageJson.scripts.start, "next start");
+  assert.equal(packageJson.scripts["db:generate"], undefined);
+});
+
+test("removes the previous hosting runtime and unused database scaffold", async () => {
+  const removedPackages = [
+    "drizzle-orm",
+    "@cloudflare/vite-plugin",
+    "@vitejs/plugin-react",
+    "@vitejs/plugin-rsc",
+    "drizzle-kit",
+    "react-server-dom-webpack",
+    "vinext",
+    "vite",
+    "wrangler",
+  ];
+
+  for (const packageName of removedPackages) {
+    assert.equal(packageJson.dependencies?.[packageName], undefined);
+    assert.equal(packageJson.devDependencies?.[packageName], undefined);
+  }
+
+  const removedPaths = [
+    ".openai/hosting.json",
+    "app/chatgpt-auth.ts",
+    "build/sites-vite-plugin.ts",
+    "db/index.ts",
+    "db/schema.ts",
+    "drizzle.config.ts",
+    "drizzle/meta/_journal.json",
+    "examples/d1/app/api/notes/route.ts",
+    "examples/d1/db/schema.ts",
+    "vite.config.ts",
+    "worker/index.ts",
+  ];
+
+  for (const relativePath of removedPaths) {
+    assert.equal(
+      await projectPathExists(relativePath),
+      false,
+      `old hosting path still exists: ${relativePath}`,
+    );
+  }
 });
