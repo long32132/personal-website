@@ -18,7 +18,6 @@
 
 # next.js
 /.next/
-/.vinext/
 /out/
 
 # misc
@@ -35,11 +34,7 @@ yarn-error.log*
 # env files
 .env*
 
-# hosting and build output
-.vercel
+# vercel
+/.vercel/
 next-env.d.ts
-/dist/
-/.wrangler/
-/outputs/
-/work/
 
