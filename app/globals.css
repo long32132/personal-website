@@ -356,6 +356,13 @@ nav a:hover::after {
   border-left: 1px solid var(--line);
 }
 
+.gongwen-project {
+  border-bottom: 1px solid var(--line);
+  border-left: 3px solid #2b5cff;
+  margin: 0;
+  max-width: 100%;
+}
+
 .reminder-visual {
   width: 100%;
   display: flex;

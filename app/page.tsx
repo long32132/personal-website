@@ -167,6 +167,24 @@ export default function Home() {
           </article>
         </div>
 
+        <article className="simple-project gongwen-project">
+          <p className="project-kicker">AI APPLICATION / 办公效率工具</p>
+          <h3>公文写作助手</h3>
+          <p>
+            基于 Dify RAG + 提示词工程的智能公文起草工具，覆盖通知 / 通报 / 报告 / 请示 /
+            函五类公文，初稿生成 ≤ 3 分钟，退稿率 ≤ 10%。
+          </p>
+          <ul className="tag-list">
+            <li>RAG 知识库</li>
+            <li>提示词工程</li>
+            <li>Chatflow 工作流</li>
+            <li>5 类公文</li>
+          </ul>
+          <a className="contact-link" href="/gongwen/">
+            在线体验 ↗
+          </a>
+        </article>
+
         <article className="content-project">
           <div className="content-copy">
             <p className="project-kicker">CONTENT / AI 岗位观察</p>
