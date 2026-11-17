@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { GongwenFocus } from "../components/gongwen-focus";
 
 export default function GongwenPage() {
   return (
     <main>
+      <GongwenFocus />
       <header className="site-header">
         <Link className="brand" href="/" aria-label="返回首页">
           <span className="brand-mark" aria-hidden="true">

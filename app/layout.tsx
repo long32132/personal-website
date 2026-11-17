@@ -1,5 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
+import { SiteMotion } from "./components/site-motion";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f5f0" },
+    { media: "(prefers-color-scheme: dark)", color: "#12171c" },
+  ],
+};
 
 export const metadata: Metadata = {
   title: "张景隆｜AI 应用、工作流与 Vibe Coding",
@@ -33,7 +44,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <body>
+        <Script id="motion-gate" strategy="beforeInteractive">
+          {`(function(){try{var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(reduce){document.documentElement.classList.add("reduced-motion");return;}document.documentElement.classList.add("js");setTimeout(function(){if(document.documentElement.classList.contains("motion-ready"))return;document.querySelectorAll("[data-reveal]").forEach(function(el){el.classList.add("is-revealed");});},2500);}catch(e){}})();`}
+        </Script>
+        {children}
+        <SiteMotion />
+      </body>
     </html>
   );
 }
