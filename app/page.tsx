@@ -242,7 +242,7 @@ export default function Home() {
         <h2 className="contact-statement">有想法，欢迎和我聊聊。</h2>
         <div className="contact-links">
           <a href="mailto:956348436@qq.com">Email ↗</a>
-          <ExternalLink href="https://github.com/long2132" className="contact-link">
+          <ExternalLink href="https://github.com/long32132" className="contact-link">
             GitHub
           </ExternalLink>
           <ExternalLink href={XHS_URL} className="contact-link">

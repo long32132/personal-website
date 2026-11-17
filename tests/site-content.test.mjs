@@ -40,7 +40,6 @@ test("contains every verified public link", () => {
     "https://long32132.github.io/-2333/",
     "https://github.com/long32132/-2333",
     "https://github.com/long32132/stand-up-reminder",
-    "https://github.com/long2132",
     "https://www.xiaohongshu.com/user/profile/5c8e6bd00000000010024796",
     "mailto:956348436@qq.com",
   ];
@@ -48,6 +47,9 @@ test("contains every verified public link", () => {
   for (const link of links) {
     assert.ok(page.includes(link), `missing verified link: ${link}`);
   }
+
+  assert.match(page, /href="https:\/\/github\.com\/long32132"/);
+  assert.doesNotMatch(page, /long2132/);
 });
 
 test("does not contain rejected resume-style claims", () => {
@@ -104,13 +106,46 @@ test("uses honest visuals for every project", () => {
   assert.match(page, /项目视觉标识/);
 });
 
+function jpegSize(buffer) {
+  if (buffer[0] !== 0xff || buffer[1] !== 0xd8) {
+    throw new Error("sharing image is not a JPEG");
+  }
+
+  let offset = 2;
+  while (offset + 9 < buffer.length) {
+    if (buffer[offset] !== 0xff) {
+      throw new Error("invalid JPEG marker");
+    }
+
+    const marker = buffer[offset + 1];
+    if (marker === 0xd9 || marker === 0xda) break;
+    if (marker === 0x01 || (marker >= 0xd0 && marker <= 0xd8)) {
+      offset += 2;
+      continue;
+    }
+
+    const length = buffer.readUInt16BE(offset + 2);
+    if (marker >= 0xc0 && marker <= 0xc2) {
+      return {
+        height: buffer.readUInt16BE(offset + 5),
+        width: buffer.readUInt16BE(offset + 7),
+      };
+    }
+    offset += 2 + length;
+  }
+
+  throw new Error("JPEG size not found");
+}
+
 test("uses the verified 1200 by 630 sharing image", async () => {
-  assert.match(layout, /og-portfolio-v2\.png/);
-  const png = await readFile(
-    new URL("../public/og-portfolio-v2.png", import.meta.url),
+  assert.match(layout, /og-portfolio-v2\.jpg/);
+  const jpeg = await readFile(
+    new URL("../public/og-portfolio-v2.jpg", import.meta.url),
   );
-  assert.equal(png.readUInt32BE(16), 1200);
-  assert.equal(png.readUInt32BE(20), 630);
+  const { width, height } = jpegSize(jpeg);
+  assert.equal(width, 1200);
+  assert.equal(height, 630);
+  assert.ok(jpeg.length < 200 * 1024, `sharing image is ${jpeg.length} bytes`);
 });
 
 test("uses the approved clean hero copy", () => {

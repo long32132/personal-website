@@ -134,7 +134,7 @@ test('contains every verified public link', () => {
     'https://long32132.github.io/-2333/',
     'https://github.com/long32132/-2333',
     'https://github.com/long32132/stand-up-reminder',
-    'https://github.com/long2132',
+    'https://github.com/long32132',
     'https://www.xiaohongshu.com/user/profile/5c8e6bd00000000010024796',
     'mailto:956348436@qq.com',
   ];
