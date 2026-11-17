@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HeroScene } from "@/components/hero/hero-scene";
 
 const XHS_URL =
   "https://www.xiaohongshu.com/user/profile/5c8e6bd00000000010024796";
@@ -47,6 +48,7 @@ export default function Home() {
       </header>
 
       <section className="hero page-section" id="top">
+        <HeroScene />
         <div className="hero-name-block">
           <p className="hero-index">PERSONAL WORKS / 2026</p>
           <h1 className="hero-name">
