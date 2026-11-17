@@ -180,8 +180,8 @@ export default function Home() {
             <li>Chatflow 工作流</li>
             <li>5 类公文</li>
           </ul>
-          <a className="contact-link" href="/gongwen/">
-            在线体验 ↗
+          <a className="text-link" href="/gongwen/">
+            在线体验 <span aria-hidden="true">↗</span>
           </a>
         </article>
 
@@ -195,7 +195,7 @@ export default function Home() {
             </p>
             <ul className="post-list">
               <li>AI 岗位又有 3 个新机会</li>
-              <li>AI训练师真的只是数据标注吗</li>
+              <li>AI 训练师真的只是数据标注吗</li>
             </ul>
             <ExternalLink href={XHS_URL}>去小红书看看</ExternalLink>
           </div>
