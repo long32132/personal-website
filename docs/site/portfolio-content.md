@@ -164,7 +164,7 @@ Thinking First. AI Second.
 ### 联系方式
 
 - Email：956348436@qq.com
-- GitHub：https://github.com/long2132
+- GitHub：https://github.com/long32132
 - 小红书：https://www.xiaohongshu.com/user/profile/5c8e6bd00000000010024796
 - 电话：13059532132
 

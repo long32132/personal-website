@@ -1,16 +1,18 @@
+import Link from "next/link";
+
 export default function GongwenPage() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="/" aria-label="返回首页">
+        <Link className="brand" href="/" aria-label="返回首页">
           <span className="brand-mark" aria-hidden="true">
             公
           </span>
           <span>公文写作助手</span>
           <em>Dify 工作流 · RAG 知识库</em>
-        </a>
+        </Link>
         <nav aria-label="页面导航">
-          <a href="/">← 返回首页</a>
+          <Link href="/">← 返回首页</Link>
         </nav>
       </header>
 
