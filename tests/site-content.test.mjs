@@ -182,6 +182,18 @@ test("uses native Next.js commands for Vercel", () => {
   assert.equal(packageJson.scripts["db:generate"], undefined);
 });
 
+test("keeps motion progressive and the palette theme-aware", () => {
+  assert.match(styles, /@media \(prefers-color-scheme: dark\)/);
+  assert.match(styles, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(styles, /@media \(prefers-reduced-motion: no-preference\)/);
+  assert.match(styles, /--accent-text: #9b3d24/);
+  assert.match(page, /data-reveal/);
+  assert.match(page, /我用 AI，把想法做成可以使用的东西。/);
+  assert.equal(packageJson.dependencies.three, undefined);
+  assert.doesNotMatch(page, /three/);
+  assert.doesNotMatch(styles, /three/);
+});
+
 test("removes the previous hosting runtime and unused database scaffold", async () => {
   const removedPackages = [
     "drizzle-orm",

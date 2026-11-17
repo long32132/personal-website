@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { HeroField } from "./components/hero-field";
+import { RevealChars } from "./components/reveal-text";
 
 const XHS_URL =
   "https://www.xiaohongshu.com/user/profile/5c8e6bd00000000010024796";
@@ -47,15 +49,18 @@ export default function Home() {
       </header>
 
       <section className="hero page-section" id="top">
+        <HeroField />
         <div className="hero-name-block">
           <p className="hero-index">PERSONAL WORKS / 2026</p>
           <h1 className="hero-name">
-            张景隆
-            <span>ZHANG JINGLONG</span>
+            <RevealChars text="张景隆" />
+            <span className="hero-name-en">ZHANG JINGLONG</span>
           </h1>
         </div>
         <div className="hero-message">
-          <p className="hero-statement">我用 AI，把想法做成可以使用的东西。</p>
+          <p className="hero-statement">
+            <RevealChars text="我用 AI，把想法做成可以使用的东西。" start={4} />
+          </p>
           <p className="hero-focus">
             AI 应用 · 自动化工作流 · Vibe Coding · 内容创作
           </p>
@@ -82,7 +87,7 @@ export default function Home() {
           <h2>做出来，才算数。</h2>
         </div>
 
-        <article className="featured-project">
+        <article className="featured-project" data-reveal="">
           <div className="project-heading">
             <div>
               <p className="project-kicker">AI APPLICATION / 财务效率工具</p>
@@ -103,7 +108,7 @@ export default function Home() {
               </ul>
             </div>
           </div>
-          <figure className="finance-screenshot">
+          <figure className="finance-screenshot tilt-media">
             <Image
               src="/media/finance-ai-assistant.png"
               alt="财务 AI 小助理实际界面，包含应收应付看板、AI 助手和 Excel 数据问答入口"
@@ -118,13 +123,13 @@ export default function Home() {
         </article>
 
         <div className="project-pair">
-          <article className="simple-project reminder-project">
+          <article className="simple-project reminder-project" data-reveal="">
             <p className="project-kicker">VIBE CODING / 桌面工具</p>
             <h3>久坐提醒</h3>
             <p>
               一个常驻系统托盘的久坐提醒工具。支持自定义间隔、延后提醒、工作时间、定时暂停、开机自启和每日统计。
             </p>
-            <div className="reminder-visual" aria-hidden="true">
+            <div className="reminder-visual tilt-media" aria-hidden="true">
               <Image
                 className="reminder-icon"
                 src="/media/stand-up-reminder.ico"
@@ -143,13 +148,13 @@ export default function Home() {
             </ExternalLink>
           </article>
 
-          <article className="simple-project dice-project">
+          <article className="simple-project dice-project" data-reveal="">
             <p className="project-kicker">VIBE CODING / 网页游戏</p>
             <h3>大话骰子 · 对饮版</h3>
             <p>
               玩家与电脑对战的大话骰子网页游戏，支持叫骰、斋与不斋、开盅、劈和反劈，还有饮酒计分与醉酒动画。
             </p>
-            <div className="dice-visual" aria-hidden="true">
+            <div className="dice-visual tilt-media" aria-hidden="true">
               <span className="die die-one"><i /></span>
               <span className="die die-five">
                 <i /><i /><i /><i /><i />
@@ -167,7 +172,7 @@ export default function Home() {
           </article>
         </div>
 
-        <article className="simple-project gongwen-project">
+        <article className="simple-project gongwen-project" data-reveal="">
           <p className="project-kicker">AI APPLICATION / 办公效率工具</p>
           <h3>公文写作助手</h3>
           <p>
@@ -185,7 +190,7 @@ export default function Home() {
           </a>
         </article>
 
-        <article className="content-project">
+        <article className="content-project" data-reveal="">
           <div className="content-copy">
             <p className="project-kicker">CONTENT / AI 岗位观察</p>
             <h3>深井牛肉饭</h3>
@@ -200,6 +205,7 @@ export default function Home() {
             <ExternalLink href={XHS_URL}>去小红书看看</ExternalLink>
           </div>
           <Image
+            className="tilt-media"
             src="/media/xiaohongshu-posts.png"
             alt="深井牛肉饭小红书账号的两篇 AI 主题内容"
             width={675}
