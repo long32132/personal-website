@@ -1,4 +1,5 @@
 import Image from "next/image";
+import LunarBackdrop from "./lunar/LunarBackdrop";
 
 const XHS_URL =
   "https://www.xiaohongshu.com/user/profile/5c8e6bd00000000010024796";
@@ -29,7 +30,8 @@ function ExternalLink({
 
 export default function Home() {
   return (
-    <main>
+    <main className="home">
+      <LunarBackdrop />
       <header className="site-header">
         <a className="brand" href="#top" aria-label="返回首页顶部">
           <span className="brand-mark" aria-hidden="true">
@@ -46,7 +48,9 @@ export default function Home() {
         </nav>
       </header>
 
-      <section className="hero page-section" id="top">
+      <div className="lunar-runway" id="top">
+      <section className="hero">
+        <div className="hero-panel">
         <div className="hero-name-block">
           <p className="hero-index">PERSONAL WORKS / 2026</p>
           <h1 className="hero-name">
@@ -63,8 +67,11 @@ export default function Home() {
             查看作品 <span aria-hidden="true">↓</span>
           </a>
         </div>
+        </div>
       </section>
+      </div>
 
+      <div className="page-sheet">
       <section className="about page-section" id="about">
         <p className="section-label">01 / ABOUT</p>
         <div className="about-summary">
@@ -255,6 +262,7 @@ export default function Home() {
           <span>Ideas into usable things.</span>
         </footer>
       </section>
+      </div>
     </main>
   );
 }

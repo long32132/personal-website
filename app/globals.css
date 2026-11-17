@@ -9,7 +9,7 @@
   --accent-text: #9b3d24;
   --terracotta: var(--accent);
   --line: rgba(20, 32, 43, 0.16);
-  --sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", Arial, sans-serif;
+  --sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", Arial, sans-serif;
 }
 
 * {
@@ -23,7 +23,7 @@ html {
 
 body {
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
@@ -724,5 +724,131 @@ footer {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+body.has-lunar {
+  background: #000;
+}
+
+.lunar-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #000;
+  pointer-events: none;
+}
+
+.lunar-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 42%;
+}
+
+.lunar-backdrop canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lunar-backdrop.is-live canvas {
+  opacity: 1;
+}
+
+.lunar-backdrop.is-live .lunar-poster {
+  opacity: 0;
+}
+
+.home .site-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 40;
+  width: 100%;
+  max-width: none;
+  background: var(--paper);
+}
+
+.lunar-runway {
+  position: relative;
+  z-index: 1;
+  height: 210vh;
+}
+
+.home .hero {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: none;
+  height: 100vh;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  pointer-events: none;
+}
+
+.hero-panel {
+  width: min(640px, 44vw);
+  margin: 0 0 clamp(28px, 5vh, 64px) clamp(22px, 5vw, 76px);
+  padding: clamp(22px, 2.6vw, 36px) clamp(22px, 2.8vw, 40px) clamp(26px, 3vw, 40px);
+  background: var(--paper);
+  pointer-events: auto;
+}
+
+.hero-panel .hero-name {
+  white-space: nowrap;
+}
+
+.page-sheet {
+  position: relative;
+  z-index: 3;
+  background: var(--paper);
+}
+
+.home .page-sheet section[id] {
+  scroll-margin-top: 104px;
+}
+
+@media (max-width: 760px) {
+  .hero-panel {
+    width: auto;
+    margin: 0 14px 16px;
+    padding: 16px 16px 18px;
+  }
+
+  .lunar-poster {
+    object-position: center 28%;
+  }
+
+  .home .page-sheet section[id] {
+    scroll-margin-top: 148px;
+  }
+
+  .lunar-runway {
+    height: 190vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lunar-runway {
+    height: 100vh;
+  }
+
+  .home .hero {
+    position: relative;
   }
 }
