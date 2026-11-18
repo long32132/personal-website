@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { MeadowCanvas } from "./meadow/meadow-canvas";
 
 const XHS_URL =
   "https://www.xiaohongshu.com/user/profile/5c8e6bd00000000010024796";
@@ -30,38 +31,62 @@ function ExternalLink({
 export default function Home() {
   return (
     <main>
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="返回首页顶部">
-          <span className="brand-mark" aria-hidden="true">
-            张
-          </span>
-          <span>张景隆</span>
-          <em>Personal Edition / 01</em>
-        </a>
-        <nav aria-label="网站导航">
-          <a href="#about">关于我</a>
-          <a href="#work">作品</a>
-          <a href="#workflow">工作流</a>
-          <a href="#contact">联系我</a>
-        </nav>
-      </header>
+      <a className="hero-name" href="#top">
+        张景隆
+        <span>ZHANG JINGLONG</span>
+      </a>
+      <nav className="edge-nav" aria-label="网站导航">
+        <a href="#about">关于我</a>
+        <a href="#work">作品</a>
+        <a href="#workflow">工作流</a>
+        <a href="#contact">联系我</a>
+      </nav>
 
-      <section className="hero page-section" id="top">
-        <div className="hero-name-block">
-          <p className="hero-index">PERSONAL WORKS / 2026</p>
-          <h1 className="hero-name">
-            张景隆
-            <span>ZHANG JINGLONG</span>
-          </h1>
+      <section className="meadow" id="top">
+        <div className="meadow-stage">
+          <div className="meadow-poster" aria-hidden="true">
+            <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stopColor="#6eafE4" />
+                  <stop offset="0.55" stopColor="#d5ecfb" />
+                  <stop offset="1" stopColor="#f3f7ef" />
+                </linearGradient>
+                <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stopColor="#8fbe58" />
+                  <stop offset="1" stopColor="#2f7a3a" />
+                </linearGradient>
+              </defs>
+              <rect width="1440" height="900" fill="url(#sky)" />
+              <ellipse cx="280" cy="210" rx="180" ry="46" fill="#ffffff" opacity="0.55" />
+              <ellipse cx="1040" cy="250" rx="220" ry="52" fill="#ffffff" opacity="0.45" />
+              <ellipse cx="720" cy="690" rx="620" ry="210" fill="url(#hill)" />
+              <ellipse cx="760" cy="560" rx="78" ry="46" fill="#2f8a42" />
+              <rect x="752" y="590" width="14" height="70" rx="6" fill="#6a4630" />
+            </svg>
+          </div>
+          <MeadowCanvas />
         </div>
-        <div className="hero-message">
+        <div className="sky-copy">
+          <p className="hero-index">PERSONAL WORKS / 2026</p>
           <p className="hero-statement">我用 AI，把想法做成可以使用的东西。</p>
-          <p className="hero-focus">
-            AI 应用 · 自动化工作流 · Vibe Coding · 内容创作
-          </p>
+          <p className="hero-focus">AI 应用 · 自动化工作流 · Vibe Coding · 内容创作</p>
           <a className="hero-link" href="#work">
             查看作品 <span aria-hidden="true">↓</span>
           </a>
+        </div>
+        <div className="meadow-controls">
+          <div className="time-pill" role="group" aria-label="时间">
+            <button type="button" data-meadow="day" aria-pressed="true">
+              白天
+            </button>
+            <button type="button" data-meadow="night" aria-pressed="false">
+              夜晚
+            </button>
+          </div>
+          <button type="button" className="scenery-button" data-meadow="hide">
+            看风景
+          </button>
         </div>
       </section>
 
@@ -109,7 +134,7 @@ export default function Home() {
               alt="财务 AI 小助理实际界面，包含应收应付看板、AI 助手和 Excel 数据问答入口"
               width={1920}
               height={879}
-              sizes="(max-width: 760px) calc(100vw - 44px), 1288px"
+              sizes="(max-width: 760px) calc(100vw - 44px), 1080px"
               priority
               unoptimized
             />
@@ -204,7 +229,7 @@ export default function Home() {
             alt="深井牛肉饭小红书账号的两篇 AI 主题内容"
             width={675}
             height={514}
-            sizes="(max-width: 760px) calc(100vw - 44px), 620px"
+            sizes="(max-width: 760px) calc(100vw - 44px), 520px"
             unoptimized
           />
         </article>
@@ -252,6 +277,7 @@ export default function Home() {
         </div>
         <footer>
           <span>张景隆 · 2026</span>
+          <span>Personal Edition / 01</span>
           <span>Ideas into usable things.</span>
         </footer>
       </section>

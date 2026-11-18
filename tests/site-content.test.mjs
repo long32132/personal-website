@@ -76,8 +76,8 @@ test("keeps every primary navigation item available on mobile", () => {
   );
 });
 
-test("uses an accessible dark terracotta for small labels", () => {
-  assert.match(styles, /--accent-text: #9b3d24/);
+test("uses a readable leaf green for small labels", () => {
+  assert.match(styles, /--accent-text: #1d5c34/);
   assert.match(
     styles,
     /\.hero-index,[\s\S]*?\.project-type\s*\{[^}]*color: var\(--accent-text\)/,
@@ -199,7 +199,7 @@ test("serves portfolio images without the incompatible image optimizer", () => {
 test("keeps secondary project titles balanced inside the two-column layout", () => {
   assert.match(
     styles,
-    /\.simple-project h3\s*\{[\s\S]*?font-size: clamp\(40px, 4vw, 64px\)/,
+    /\.simple-project h3\s*\{[\s\S]*?font-size: clamp\(28px, 2\.4vw, 40px\)/,
   );
 });
 
@@ -215,6 +215,28 @@ test("uses native Next.js commands for Vercel", () => {
   assert.equal(packageJson.scripts.build, "next build");
   assert.equal(packageJson.scripts.start, "next start");
   assert.equal(packageJson.scripts["db:generate"], undefined);
+});
+
+test("keeps the meadow scene generated, readable, and optional", async () => {
+  assert.equal(packageJson.dependencies.three, "0.170.0");
+  assert.match(page, /白天/);
+  assert.match(page, /夜晚/);
+  assert.match(page, /看风景/);
+  assert.match(page, /data-meadow="day"/);
+  assert.match(page, /data-meadow="night"/);
+  assert.match(page, /data-meadow="hide"/);
+  assert.match(styles, /\.hero-name\s*\{[^}]*font-size: 22px/);
+  assert.match(styles, /meadow-poster/);
+  assert.match(styles, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(styles, /@media \(prefers-reduced-motion: no-preference\)/);
+  assert.doesNotMatch(styles, /\.hero-name\s*\{[^}]*font-size: clamp\(8\dpx/);
+
+  const meadow = await readFile(new URL("../app/meadow/meadow.ts", import.meta.url), "utf8");
+  const canvas = await readFile(new URL("../app/meadow/meadow-canvas.tsx", import.meta.url), "utf8");
+  assert.match(meadow, /meadowHeight/);
+  assert.match(canvas, /prefers-reduced-motion/);
+  assert.doesNotMatch(meadow, /https?:\/\//);
+  assert.doesNotMatch(meadow, /touch grass/i);
 });
 
 test("removes the previous hosting runtime and unused database scaffold", async () => {
