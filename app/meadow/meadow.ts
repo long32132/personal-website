@@ -7,7 +7,7 @@ import * as THREE from "three";
 
 const TREE_X = 0.25;
 const TREE_Z = -0.35;
-const TRAIL_SLOTS = 8;
+const TRAIL_SLOTS = 4;
 const BLOSSOM_COUNT = 36;
 
 const TERRAIN_GLSL = /* glsl */ `
@@ -161,7 +161,7 @@ function bladeGeometry() {
   const indices: number[] = [];
   for (let i = 0; i <= segments; i += 1) {
     const t = i / segments;
-    const width = 0.026 * (1 - t * 0.9);
+    const width = 0.032 * (1 - t * 0.9);
     positions.push(-width, t, 0, width, t, 0);
     uvs.push(0, t, 1, t);
   }
@@ -443,8 +443,8 @@ type MountOptions = {
 };
 
 export function mountMeadow(host: HTMLElement, options: MountOptions) {
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, powerPreference: "high-performance" });
+  renderer.setPixelRatio(1);
   renderer.setSize(host.clientWidth, host.clientHeight);
   renderer.setClearColor(0xb7daf3, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -462,6 +462,7 @@ export function mountMeadow(host: HTMLElement, options: MountOptions) {
     uTime: { value: 0 },
     uSun: { value: new THREE.Vector3(-0.55, 0.72, 0.28).normalize() },
     uTrail: { value: Array.from({ length: TRAIL_SLOTS }, () => new THREE.Vector3()) },
+    uActive: { value: 0 },
   };
   const skyUniforms = {
     uNight: { value: 0 },
@@ -603,9 +604,9 @@ export function mountMeadow(host: HTMLElement, options: MountOptions) {
   const grassGeo = bladeGeometry();
   const blades: { x: number; z: number; sx: number; sy: number; yaw: number; seed: number }[] = [];
   const bands = [
-    { n: 12000, z0: 3.2, z1: 8.8, h: 0.5 },
-    { n: 4800, z0: -1.2, z1: 3.3, h: 0.68 },
-    { n: 2200, z0: -5.5, z1: -1.1, h: 0.52 },
+    { n: 8000, z0: 3.2, z1: 8.8, h: 0.52 },
+    { n: 3200, z0: -1.2, z1: 3.3, h: 0.7 },
+    { n: 1400, z0: -5.5, z1: -1.1, h: 0.55 },
   ];
   for (const band of bands) {
     for (let i = 0; i < band.n; i += 1) {
@@ -631,9 +632,9 @@ export function mountMeadow(host: HTMLElement, options: MountOptions) {
     side: THREE.DoubleSide,
     uniforms: fieldUniforms,
     vertexShader: /* glsl */ `
-      ${TERRAIN_GLSL}
       attribute float aSeed;
       uniform float uTime;
+      uniform float uActive;
       uniform vec3 uTrail[${TRAIL_SLOTS}];
       varying float vSeed;
       varying float vTip;
@@ -648,16 +649,17 @@ export function mountMeadow(host: HTMLElement, options: MountOptions) {
         p.z += cos(uTime * 1.05 + instanceMatrix[3].x * 0.4) * uv.y * uv.y * 0.07;
         float glow = 0.0;
         vec2 base = instanceMatrix[3].xz;
-        for (int i = 0; i < ${TRAIL_SLOTS}; i++) {
-          vec2 d = base - uTrail[i].xy;
-          float inf = exp(-dot(d, d) / 0.42) * uTrail[i].z;
-          glow += inf;
-          vec2 push = d / max(length(d), 0.001);
-          p.xz += push * inf * uv.y * 0.28;
+        if (uActive > 0.001) {
+          for (int i = 0; i < ${TRAIL_SLOTS}; i++) {
+            vec2 d = base - uTrail[i].xy;
+            float inf = exp(-dot(d, d) / 0.42) * uTrail[i].z;
+            glow += inf;
+            vec2 push = d / max(length(d), 0.001);
+            p.xz += push * inf * uv.y * 0.28;
+          }
         }
         vGlow = glow;
         vec4 world = instanceMatrix * vec4(p, 1.0);
-        world.y += meadowHeight(base);
         vNormal = normalize(mat3(instanceMatrix) * vec3(bend * 0.2, 0.25, 1.0));
         gl_Position = projectionMatrix * viewMatrix * world;
       }
@@ -689,7 +691,7 @@ export function mountMeadow(host: HTMLElement, options: MountOptions) {
   const grass = new THREE.InstancedMesh(grassGeo, grassMat, blades.length);
   const dummy = new THREE.Object3D();
   blades.forEach((blade, index) => {
-    dummy.position.set(blade.x, 0, blade.z);
+    dummy.position.set(blade.x, meadowHeight(blade.x, blade.z), blade.z);
     dummy.rotation.y = blade.yaw;
     dummy.scale.set(blade.sx, blade.sy, 1);
     dummy.updateMatrix();
@@ -712,16 +714,13 @@ export function mountMeadow(host: HTMLElement, options: MountOptions) {
     alphaTest: 0.25,
     uniforms: { ...fieldUniforms, uMap: { value: flowerTexture() } },
     vertexShader: /* glsl */ `
-      ${TERRAIN_GLSL}
       attribute float aSeed;
       varying float vSeed;
       varying vec2 vUv;
       void main() {
         vSeed = aSeed;
         vUv = uv;
-        vec4 world = instanceMatrix * vec4(position, 1.0);
-        world.y += meadowHeight(instanceMatrix[3].xz);
-        gl_Position = projectionMatrix * viewMatrix * world;
+        gl_Position = projectionMatrix * viewMatrix * instanceMatrix * vec4(position, 1.0);
       }
     `,
     fragmentShader: /* glsl */ `
@@ -744,7 +743,7 @@ export function mountMeadow(host: HTMLElement, options: MountOptions) {
   for (let i = 0; i < flowerCount; i += 1) {
     const z = -4.6 + Math.random() * 10.2;
     const x = (Math.random() - 0.5) * 16;
-    dummy.position.set(x, 0, z);
+    dummy.position.set(x, meadowHeight(x, z), z);
     dummy.rotation.set(0, Math.random() * Math.PI, 0);
     const s = 0.42 + Math.random() * 0.38;
     dummy.scale.set(s, s, 1);
@@ -856,12 +855,17 @@ export function mountMeadow(host: HTMLElement, options: MountOptions) {
   const pointer = new THREE.Vector2();
   const lastTrail = new THREE.Vector2(99, 99);
 
+  let onScreen = true;
+  const pixelRatio = Math.min(window.devicePixelRatio || 1, 1);
+
   const resize = () => {
     const width = host.clientWidth || 1;
     const height = host.clientHeight || 1;
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+    renderer.setPixelRatio(pixelRatio);
     renderer.setSize(width, height);
+    host.dataset.buffer = `${renderer.domElement.width}x${renderer.domElement.height}`;
   };
   resize();
   const resizeObserver = new ResizeObserver(resize);
@@ -877,12 +881,18 @@ export function mountMeadow(host: HTMLElement, options: MountOptions) {
 
   const onDay = () => {
     targetNight = 0;
-    if (reduced) night = 0;
+    if (reduced) {
+      night = 0;
+      paint();
+    }
     setPressed(false);
   };
   const onNightClick = () => {
     targetNight = 1;
-    if (reduced) night = 1;
+    if (reduced) {
+      night = 1;
+      paint();
+    }
     setPressed(true);
   };
   const onHide = () => {
@@ -929,11 +939,16 @@ export function mountMeadow(host: HTMLElement, options: MountOptions) {
   };
   host.addEventListener("pointermove", onPointer);
 
-  const render = () => {
-    if (!running) return;
-    frame = window.requestAnimationFrame(render);
+  const sun = new THREE.Vector3();
+  const moon = new THREE.Vector3(0.62, 0.5, -0.2).normalize();
+  let blossomDirty = true;
+  let looping = false;
+  let primed = false;
+
+  const paint = () => {
     const now = performance.now();
-    const wall = Math.max(0, (now - lastStamp) / 1000);
+    const wall = primed ? Math.max(0, (now - lastStamp) / 1000) : 0;
+    primed = true;
     lastStamp = now;
     const elapsed = Math.min(wall, 0.08);
     if (!reduced) {
@@ -945,60 +960,98 @@ export function mountMeadow(host: HTMLElement, options: MountOptions) {
       night = targetNight;
     }
     const sunLift = 0.78 - smoothstep(0.05, 0.62, night) * 0.95;
-    const sun = new THREE.Vector3(-0.72, sunLift, 0.32).normalize();
-    const moon = new THREE.Vector3(0.62, 0.5, -0.2).normalize();
+    sun.set(-0.72, sunLift, 0.32).normalize();
     fieldUniforms.uSun.value.copy(sun).lerp(moon, smoothstep(0.35, 0.8, night)).normalize();
     fieldUniforms.uNight.value = night;
     skyUniforms.uNight.value = night;
     options.onNight(night);
 
+    let trailActive = 0;
     for (let i = 0; i < TRAIL_SLOTS; i += 1) {
       const point = trail[i];
       const slot = fieldUniforms.uTrail.value[i];
-      if (!point) slot.set(0, 0, 0);
+      if (!point || point.life <= 0) slot.set(0, 0, 0);
       else {
         point.life = Math.max(0, point.life - elapsed * 0.55);
         slot.set(point.x, point.z, point.life);
+        if (point.life > 0) trailActive = 1;
       }
     }
+    fieldUniforms.uActive.value = trailActive;
     for (let i = trail.length - 1; i >= 0; i -= 1) {
       if (trail[i].life <= 0) trail.splice(i, 1);
     }
 
-    const lifeAttr = blossomGeo.getAttribute("aLife") as THREE.InstancedBufferAttribute;
-    const hueAttr = blossomGeo.getAttribute("aHue") as THREE.InstancedBufferAttribute;
-    blossomState.forEach((item, index) => {
+    let liveBlossoms = 0;
+    blossomState.forEach((item) => {
       if (!reduced && item.life > 0) item.life = Math.max(0, item.life - elapsed * 0.42);
-      dummy.position.set(item.x, 0, item.z);
-      dummy.rotation.set(0, 0, 0);
-      dummy.scale.set(1, 1, 1);
-      dummy.updateMatrix();
-      blossoms.setMatrixAt(index, dummy.matrix);
-      lifeAttr.setX(index, item.life);
-      hueAttr.setX(index, item.hue);
+      if (item.life > 0) liveBlossoms += 1;
     });
-    blossoms.instanceMatrix.needsUpdate = true;
-    lifeAttr.needsUpdate = true;
+    if (liveBlossoms > 0 || blossomDirty) {
+      const lifeAttr = blossomGeo.getAttribute("aLife") as THREE.InstancedBufferAttribute;
+      const hueAttr = blossomGeo.getAttribute("aHue") as THREE.InstancedBufferAttribute;
+      blossomState.forEach((item, index) => {
+        dummy.position.set(item.x, 0, item.z);
+        dummy.rotation.set(0, 0, 0);
+        dummy.scale.setScalar(item.life > 0 ? 1 : 0);
+        dummy.updateMatrix();
+        blossoms.setMatrixAt(index, dummy.matrix);
+        lifeAttr.setX(index, item.life);
+        hueAttr.setX(index, item.hue);
+      });
+      blossoms.instanceMatrix.needsUpdate = true;
+      lifeAttr.needsUpdate = true;
+      blossomDirty = liveBlossoms > 0;
+    }
 
-    fireflyHome.forEach((bug, index) => {
-      const time = fieldUniforms.uTime.value;
-      fireflyPos[index * 3] = bug.x + Math.sin(time * 0.35 + bug.phase) * 0.35;
-      fireflyPos[index * 3 + 1] = meadowHeight(bug.x, bug.z) + bug.y + Math.sin(time * 1.4 + bug.phase) * 0.08;
-      fireflyPos[index * 3 + 2] = bug.z + Math.cos(time * 0.28 + bug.phase) * 0.28;
-    });
-    (fireflyGeo.attributes.position as THREE.BufferAttribute).needsUpdate = true;
-    (fireflies.material as THREE.PointsMaterial).opacity = smoothstep(0.4, 0.75, night) * 0.9;
+    const fireflyOpacity = smoothstep(0.4, 0.75, night) * 0.9;
+    (fireflies.material as THREE.PointsMaterial).opacity = fireflyOpacity;
+    if (fireflyOpacity > 0.01) {
+      fireflyHome.forEach((bug, index) => {
+        const time = fieldUniforms.uTime.value;
+        fireflyPos[index * 3] = bug.x + Math.sin(time * 0.35 + bug.phase) * 0.35;
+        fireflyPos[index * 3 + 1] = meadowHeight(bug.x, bug.z) + bug.y + Math.sin(time * 1.4 + bug.phase) * 0.08;
+        fireflyPos[index * 3 + 2] = bug.z + Math.cos(time * 0.28 + bug.phase) * 0.28;
+      });
+      (fireflyGeo.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+    }
 
     sky.position.copy(camera.position);
     renderer.render(scene, camera);
+    const rendered = renderer.info.render;
+    host.dataset.draws = String(rendered.calls);
+    host.dataset.triangles = String(rendered.triangles);
     host.classList.add("is-ready");
   };
-  frame = window.requestAnimationFrame(render);
+
+  const loop = () => {
+    looping = false;
+    if (!running || reduced || document.hidden || !onScreen) return;
+    looping = true;
+    frame = window.requestAnimationFrame(loop);
+    paint();
+  };
+  const startLoop = () => {
+    if (!running || reduced || document.hidden || !onScreen || looping) return;
+    looping = true;
+    frame = window.requestAnimationFrame(loop);
+  };
+  const onVisibility = () => startLoop();
+  document.addEventListener("visibilitychange", onVisibility);
+  const intersection = new IntersectionObserver((entries) => {
+    onScreen = entries.some((entry) => entry.isIntersecting);
+    if (onScreen) startLoop();
+  });
+  intersection.observe(host);
+  if (reduced) paint();
+  else startLoop();
 
   return () => {
     running = false;
     window.cancelAnimationFrame(frame);
     resizeObserver.disconnect();
+    intersection.disconnect();
+    document.removeEventListener("visibilitychange", onVisibility);
     host.removeEventListener("pointermove", onPointer);
     window.removeEventListener("keydown", onKey);
     document.querySelector("[data-meadow='day']")?.removeEventListener("click", onDay);
